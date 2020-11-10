@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+# This is my screenshotting script. It works with screenshots in such a way so that I can just easily save, automatically sort and properly work with my screenshotted files.
+
+# DEPENDENCIES
+# xclip xdotool maim paplay
+
+# This grabs the name of the currently active window's process.
+processname=$(ps -p $(xdotool getactivewindow getwindowpid) -o comm=)
+
+# Now we're setting two separate time-related variables.
+# One is for the current month, the other for the current date and timestamp.
+nowmon=$(date +%Y-%m)
+nowday=$(date +%Y-%m-%d_%H-%M-%S)
+
+# These are variables for setting locations.
+# Base location
+loc=$HOME/Screenshets/$nowmon
+# Area, Clipboard and Current window locations respectively
+arealoc=$loc"/"$processname"_"$nowday.png
+cliploc=$loc"/clip_"$nowday.png
+windloc=$loc"/"$processname"_"$nowday.png
+
+# This initializes the folder to save in, to make sure that the image can actually save.
+mkdir -p $loc
+
+# Let's handle the individual flags and features.
+while getopts acw option; do 
+	case "$option" in
+		a ) # Screenshot area
+			# Screenshotting payload. Don't mess with this.
+			maim -su "$arealoc" && xclip -selection c -t image/png < "$arealoc"
+			# Now we check whether the file exists.
+			if test -f "$arealoc"; then
+				# It exists, so here's a sound.
+				paplay saved.ogg
+			else
+				# Doesn't exist, let's assume the screenshot was cancelled.
+				echo "Screenshot cancelled. Not playing sound."
+			fi
+		;;
+		c ) # Save Clipboard image to folder
+			# ...please make sure it's actually an image. lol
+			# This is the command... it's surprisingly simple.
+			xclip -selection clipboard -t image/png -o > $cliploc
+			#However, we do also still need to check whether the file exists.
+			if test -f "$cliploc"; then
+				# It exists, so here's a sound.
+				paplay saved.ogg
+			else
+				# Doesn't exist, let's assume the screenshot was cancelled.
+				echo "File doesn't exist, something went wrong. Not playing the sound anyways."
+			fi
+			;;
+		w ) # Screenshot active window
+			# Normally I wouldn't have to include this, but I'm doing it for the sake of doing it.
+			maim -i $(xdotool getactivewindow) -u "$windloc" && xclip -selection c -t image/png < "$windloc"
+			# Now we check whether the file exists.
+			if test -f "$windloc"; then
+				# It exists, so here's a sound.
+				paplay saved.ogg
+			else
+				# Doesn't exist, let's assume the screenshot was cancelled.
+				echo "File doesn't exist, something went wrong. Not playing the sound anyways."
+			fi
+			;;
+		\? ) 
+			# Fallback for bogus flags.
+		echo "Available flags:";
+		echo "-a: Select area or window";
+		echo "-c: Save from clipboard";
+		echo "-w: Screenshot active window";
+		;;
+	esac
+done
+
+#If no flag was given, let's just capture an area, as final fallback
+if (( $OPTIND == 1 )); then
+	echo "Falling back to area capture."
+	maim -su "$arealoc" && xclip -selection c -t image/png < "$arealoc"
+	# Now we check whether the file exists.
+	if test -f "$arealoc"; then
+		# It exists, so here's a sound.
+		paplay saved.ogg
+	else
+		# Doesn't exist, let's assume the screenshot was cancelled.
+		echo "Screenshot cancelled. Not playing sound."
+	fi
+fi
