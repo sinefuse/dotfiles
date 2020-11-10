@@ -19,7 +19,8 @@ Alternatively, you can move it to /usr/local/bin/. Be sure to also move the soun
 From here, assign shortcuts using the flags below.
 
 ## Flags
-```-a: Select area or window to screenshot
+```
+-a: Select area or window to screenshot
 -c: Save image in clipboard
 -w: Screenshot the active window
 ```
