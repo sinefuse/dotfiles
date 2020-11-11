@@ -19,4 +19,4 @@ echo Key pressed, you did thing.
 # Check whether Cinnamon is installed, just in case.
 
 # Install all the dependencies
-sudo dnf install gnome-tweaks util-linux-user
+# sudo dnf install gnome-tweaks util-linux-user
