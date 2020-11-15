@@ -22,7 +22,7 @@ echo "Installing a bunch of needed packages..."
 sudo dnf install gnome-tweaks util-linux-user htop maim xdotool xclip mpd ncmpcpp neofetch sakura mpv obs-studio stow terminus-fonts zsh discord arc-theme -y
  
 # Install Oh-My-Zsh, but unattended so we can keep going our merry way
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/uninstall.sh)" "" --unattended
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
  
 # Oh-My-Zsh will generate its own .zshrc. We have our own in our dotfiles,
 # So we're getting rid of this one.
