@@ -1,0 +1,34 @@
+#!/usr/bin/sh
+
+# note to self: this is a bash script, launch everything you want to launch at runtime here
+
+sxhkd &
+
+polybar -r example &
+
+picom &
+
+# feh --bg-center ~/path/to/bg.png &
+
+# yep i have a double monitor setup. eat my bum
+bspc monitor DisplayPort-0 -d I II III IV V VI VII VIII
+bspc monitor DisplayPort-1 -d IX
+
+xrandr --output DisplayPort-0 --primary --mode 1920x1080 --rate 144 --output DisplayPort-1 --mode 1920x1080 --rate 75
+
+# todo configure border colors to something i can eventually agree on alongside my polybar config
+
+bspc config border_width         2
+bspc config window_gap          10
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+# note: ^8 means window spawns on workspace 8
+
+#second monitor setup
+bspc rule -a Discord desktop='^9' focus=on
+bspc rule -a deadbeef desktop='^9' focus=on
+#i browse a lot so firefox time
+bspc rule -a firefox desktop='^1'
