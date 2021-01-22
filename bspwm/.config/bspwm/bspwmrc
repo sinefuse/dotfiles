@@ -8,13 +8,11 @@ polybar -r example &
 
 picom &
 
-# feh --bg-center ~/path/to/bg.png &
+feh --bg-center ~/Pictures/bg.png &
 
-# yep i have a double monitor setup. eat my bum
-bspc monitor DisplayPort-0 -d I II III IV V VI VII VIII
-bspc monitor DisplayPort-1 -d IX
+bspc monitor LVDS-1 -d 1 2 3 4 5 6
 
-xrandr --output DisplayPort-0 --primary --mode 1920x1080 --rate 144 --output DisplayPort-1 --mode 1920x1080 --rate 75
+xrandr --output LVDS-1 --primary --mode 1366x768 --rate 60
 
 # todo configure border colors to something i can eventually agree on alongside my polybar config
 
